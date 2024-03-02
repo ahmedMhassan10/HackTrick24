@@ -129,10 +129,7 @@ def solve_problem_solving_easy(input: tuple) -> list:
     """
     my_dict = {}
     x = 0
-    for item in input:
-        if (type(item) == int):
-            x = item
-            continue
+    for item in input[0]:
         if item not in my_dict:
             my_dict[item] = 1
         else:
@@ -142,6 +139,7 @@ def solve_problem_solving_easy(input: tuple) -> list:
         my_list.append([-value, key])
     my_list.sort()
     result = []
+    x = int(input[1])
     for item in my_list:
         result.append(item[1])
     return result[:x]
@@ -200,8 +198,8 @@ def solve_problem_solving_hard(input: tuple) -> int:
     Returns:
     int: An integer representing the solution to the problem.
     """
-    x = input[0]
-    y = input[1]
+    x = int(input[0])
+    y = int(input[1])
     dp = np.zeros((x, y))
     dp[0][0] = 1
     for i in range(x):
