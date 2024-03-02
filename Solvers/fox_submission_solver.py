@@ -4,8 +4,8 @@ from LSBSteg import encode
 from riddle_solvers import riddle_solvers
 import random
 
-#team_id = "Jt4hTHH"
-team_id = "a3333333"
+team_id = "Jt4hTHH"
+# team_id = "a3333333"
 # 3.70.97.142
 api_base_url = "http://3.70.97.142:5000/fox"
 
@@ -21,7 +21,7 @@ def init_fox(team_id):
     }
 
     response = requests.post(api_base_url + f'/start', json=payload)
-    print("aaa")
+    print(response)
     if response.status_code == 200 or response.status_code == 201:
         response_data = response.json()
         message = response_data['msg']
@@ -53,9 +53,9 @@ def generate_message_array(message, image_carrier):
     list_of_chunks = []
     for i in range(3):
         chunk_set = [
-            [real_message_chunks[i], 'R'],
-            [fake_message_chunks[i][0], 'F'],
-            [fake_message_chunks[i][1], 'F']
+            [real_message_chunks[i], "R"],
+            [fake_message_chunks[i][0], "F"],
+            [fake_message_chunks[i][1], "F"]
         ]
         random.shuffle(chunk_set)
         list_of_chunks.append(chunk_set)
@@ -65,7 +65,8 @@ def generate_message_array(message, image_carrier):
         temp = []
         image_entity = []
         for j in range(len(list_of_chunks[i])):
-            temp.append(encode(image_carrier, list_of_chunks[i][j][0]))
+            mat = image_carrier.copy()
+            temp.append(encode(mat, list_of_chunks[i][j][0]))
             image_entity.append(list_of_chunks[i][j][1])
         images.append(temp)
         images_entities.append(image_entity)
@@ -119,6 +120,7 @@ def solve_riddle(team_id, solution):
         "solution": solution
     }
     response = requests.post(api_base_url + f'/solve-riddle', json=payload)
+    print(response)
     if response.status_code == 200 or response.status_code == 201:
         response_data = response.json()
         budget_increase = response_data['budget_increase']
@@ -162,11 +164,7 @@ def end_fox(team_id):
         "teamId": team_id,
     }
     response = requests.post(api_base_url + f'/end-game', json=payload)
-    if response.status_code == 200 or response.status_code == 201:
-        # response_data = response.json()
-        print(response)
-        # return response_data
-    pass
+    print(response)
 
 
 def submit_fox_attempt(team_id):
