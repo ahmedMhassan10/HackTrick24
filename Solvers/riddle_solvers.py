@@ -227,3 +227,5 @@ riddle_solvers = {
     'problem_solving_medium': solve_problem_solving_medium,
     'problem_solving_hard': solve_problem_solving_hard
 }
+
+
