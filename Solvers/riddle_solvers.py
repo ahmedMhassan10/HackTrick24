@@ -128,8 +128,10 @@ def solve_problem_solving_easy(input: tuple) -> list:
     list: A list of strings representing the solution to the problem.
     """
     my_dict = {}
+    x = 0
     for item in input:
         if (type(item) == int):
+            x = item
             continue
         if item not in my_dict:
             my_dict[item] = 1
@@ -142,7 +144,7 @@ def solve_problem_solving_easy(input: tuple) -> list:
     result = []
     for item in my_list:
         result.append(item[1])
-    return result
+    return result[:x]
 
 
 def flatten(lst):
@@ -175,9 +177,7 @@ def solve_problem_solving_medium(input: str) -> str:
             stack.append(char)
             current_string = ''
         elif char == ']':
-            if current_string:
-                stack.append(current_string)
-                current_string = ''
+
             inner_list = []
             while stack[-1] != '[':
                 inner_list.insert(0, stack.pop())
@@ -185,9 +185,7 @@ def solve_problem_solving_medium(input: str) -> str:
             repeat_count = int(stack.pop())
             stack.append(inner_list * repeat_count)
         else:
-            stack.append(current_string)
             stack.append(char)
-            current_string = ''
     res = ''.join(flatten(stack))
     return res
 
@@ -227,5 +225,3 @@ riddle_solvers = {
     'problem_solving_medium': solve_problem_solving_medium,
     'problem_solving_hard': solve_problem_solving_hard
 }
-
-
