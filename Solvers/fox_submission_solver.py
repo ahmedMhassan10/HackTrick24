@@ -4,8 +4,8 @@ from LSBSteg import encode
 from riddle_solvers import riddle_solvers
 import random
 
-team_id = "Jt4hTHH"
-# team_id = "a3333333"
+# team_id = "Jt4hTHH"
+team_id = "a3333333"
 # 3.70.97.142
 api_base_url = "http://3.70.97.142:5000/fox"
 
@@ -21,12 +21,10 @@ def init_fox(team_id):
     }
 
     response = requests.post(api_base_url + f'/start', json=payload)
-    print(response)
     if response.status_code == 200 or response.status_code == 201:
         response_data = response.json()
         message = response_data['msg']
         image_carrier = response_data['carrier_image']
-        print(response_data)
         return message, image_carrier
     pass
 
@@ -70,7 +68,6 @@ def generate_message_array(message, image_carrier):
             image_entity.append(list_of_chunks[i][j][1])
         images.append(temp)
         images_entities.append(image_entity)
-    print(images, images_entities)
     return images, images_entities
 
 
@@ -93,7 +90,6 @@ def get_riddle(team_id, riddle_id):
     if response.status_code == 200 or response.status_code == 201:
         response_data = response.json()
         test_case = response_data['test_case']
-        print(test_case)
         return test_case
     pass
     # if riddle_id == "problem_solving_easy":
@@ -120,13 +116,11 @@ def solve_riddle(team_id, solution):
         "solution": solution
     }
     response = requests.post(api_base_url + f'/solve-riddle', json=payload)
-    print(response)
     if response.status_code == 200 or response.status_code == 201:
         response_data = response.json()
         budget_increase = response_data['budget_increase']
         total_budget = response_data['total_budget']
         status = response_data['status']
-        print(response_data)
         return budget_increase, total_budget, status
     # return 1, 1, 1
     pass
@@ -144,7 +138,6 @@ def send_message(team_id, messages, message_entities=['F', 'E', 'R']):
         "message_entities": message_entities
     }
     response = requests.post(api_base_url + f'/send-message', json=payload)
-    print(response)
     if response.status_code == 200 or response.status_code == 201:
         response_data = response.json()
         status = response_data['status']
@@ -164,7 +157,6 @@ def end_fox(team_id):
         "teamId": team_id,
     }
     response = requests.post(api_base_url + f'/end-game', json=payload)
-    print(response)
 
 
 def submit_fox_attempt(team_id):
@@ -195,13 +187,11 @@ def submit_fox_attempt(team_id):
         test_case = get_riddle(team_id, riddle_id)
         solution = riddle_runner(riddle_id, test_case)
         budget_increase, total, status = solve_riddle(team_id, solution)
-        print(budget_increase, total, status)
 
     for i in range(len(message_array)):
         for j in range(len(message_array[i])):
             message_array[i][j] = message_array[i][j].tolist()
         status = send_message(team_id, message_array[i], message_entities[i])
-        print(status)
     end_fox(team_id)
 
 
