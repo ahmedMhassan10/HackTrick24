@@ -4,7 +4,8 @@ from LSBSteg import encode
 from riddle_solvers import riddle_solvers
 
 api_base_url = None
-team_id=None
+team_id = "Jt4hTHH"
+
 
 def init_fox(team_id):
     '''
@@ -14,7 +15,8 @@ def init_fox(team_id):
     '''
     pass
 
-def generate_message_array(message, image_carrier):  
+
+def generate_message_array(message, image_carrier):
     '''
     In this function you will need to create your own startegy. That includes:
         1. How you are going to split the real message into chunkcs
@@ -22,7 +24,8 @@ def generate_message_array(message, image_carrier):
         3. Decide what 3 chuncks you will send in each turn in the 3 channels & what is their entities (F,R,E)
         4. Encode each chunck in the image carrier  
     '''
-    pass 
+    pass
+
 
 def get_riddle(team_id, riddle_id):
     '''
@@ -36,6 +39,7 @@ def get_riddle(team_id, riddle_id):
     '''
     pass
 
+
 def solve_riddle(team_id, solution):
     '''
     In this function you will solve the riddle that you have requested. 
@@ -44,6 +48,7 @@ def solve_riddle(team_id, solution):
     '''
     pass
 
+
 def send_message(team_id, messages, message_entities=['F', 'E', 'R']):
     '''
     Use this function to call the api end point to send one chunk of the message. 
@@ -51,7 +56,8 @@ def send_message(team_id, messages, message_entities=['F', 'E', 'R']):
     Refer to the API documentation to know more about what needs to be send in this api call. 
     '''
     pass
-   
+
+
 def end_fox(team_id):
     '''
     Use this function to call the api end point of ending the fox game.
@@ -61,6 +67,7 @@ def end_fox(team_id):
       (Like failing to submit the entire message within the timelimit of the game).
     '''
     pass
+
 
 def submit_fox_attempt(team_id):
     '''
@@ -81,7 +88,7 @@ def submit_fox_attempt(team_id):
             2.b. You cannot send 3 E(Empty) messages, there should be atleast R(Real)/F(Fake)
         3. Refer To the documentation to know more about the API handling 
     '''
-    pass 
+    pass
 
 
 submit_fox_attempt(team_id)
