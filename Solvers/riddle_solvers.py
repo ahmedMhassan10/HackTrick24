@@ -89,18 +89,18 @@ def solve_ml_medium(input: list) -> int:
     return 0
 
 
-def solve_sec_medium(input: torch.Tensor) -> str:
+def solve_sec_medium(input: Image) -> str:
     """
-    This function takes a torch.Tensor as input and returns a string as output.
+    This function takes an Image as input and returns a string as output.
 
     Parameters:
-    input (torch.Tensor): A torch.Tensor representing the image that has the encoded message.
+    input : An Image
 
     Returns:
     str: A string representing the decoded message from the image.
     """
-    img = torch.tensor(input)
-    return decode(img)
+    image_tensor = image_to_tensor(input)
+    return decode(image_tensor)
 
 
 def solve_sec_hard(input: tuple) -> str:
@@ -215,7 +215,7 @@ def solve_problem_solving_hard(input: tuple) -> int:
     return int(dp[x - 1][y - 1])
 
 
-def image_to_tensor(image_path):
+def image_to_tensor(image):
     """
     Converts an image to a PyTorch tensor with batch dimension.
     """
@@ -224,11 +224,8 @@ def image_to_tensor(image_path):
         transforms.ToTensor()
     ])
 
-    # Open the image
-    img = Image.open(image_path)
-
     # Apply the transformation
-    tensor = transform(img)
+    tensor = transform(image)
 
     # Add batch dimension
     tensor_with_batch = tensor.unsqueeze(0)
@@ -249,8 +246,7 @@ riddle_solvers = {
     'problem_solving_hard': solve_problem_solving_hard
 }
 
-#sample test case
+# sample test case
 path = "D://hackTrick//HackTrick24//SteganoGAN//sample_example//encoded.png"
-image_tensor = image_to_tensor(path)
-decoded_message = solve_sec_medium(image_tensor)
-print("Decoded Message:", decoded_message)
+img = Image.open(path)
+print("Decoded Message:", solve_sec_medium(img))
