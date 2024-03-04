@@ -1,8 +1,12 @@
 # Add the necessary imports here
+
 import pandas as pd
 import torch
 from utils import *
 import numpy as np
+from SteganoGAN.utils import *
+from torchvision import transforms
+from PIL import Image
 
 
 def solve_cv_easy(test_case: tuple) -> list:
@@ -86,7 +90,6 @@ def solve_ml_medium(input: list) -> int:
 
 
 def solve_sec_medium(input: torch.Tensor) -> str:
-    img = torch.tensor(input)
     """
     This function takes a torch.Tensor as input and returns a string as output.
 
@@ -96,7 +99,8 @@ def solve_sec_medium(input: torch.Tensor) -> str:
     Returns:
     str: A string representing the decoded message from the image.
     """
-    return ''
+    img = torch.tensor(input)
+    return decode(img)
 
 
 def solve_sec_hard(input: tuple) -> str:
@@ -211,6 +215,27 @@ def solve_problem_solving_hard(input: tuple) -> int:
     return int(dp[x - 1][y - 1])
 
 
+def image_to_tensor(image_path):
+    """
+    Converts an image to a PyTorch tensor with batch dimension.
+    """
+    # Define transformation to apply to the image
+    transform = transforms.Compose([
+        transforms.ToTensor()
+    ])
+
+    # Open the image
+    img = Image.open(image_path)
+
+    # Apply the transformation
+    tensor = transform(img)
+
+    # Add batch dimension
+    tensor_with_batch = tensor.unsqueeze(0)
+
+    return tensor_with_batch
+
+
 riddle_solvers = {
     'cv_easy': solve_cv_easy,
     'cv_medium': solve_cv_medium,
@@ -223,3 +248,9 @@ riddle_solvers = {
     'problem_solving_medium': solve_problem_solving_medium,
     'problem_solving_hard': solve_problem_solving_hard
 }
+
+#sample test case
+path = "D://hackTrick//HackTrick24//SteganoGAN//sample_example//encoded.png"
+image_tensor = image_to_tensor(path)
+decoded_message = solve_sec_medium(image_tensor)
+print("Decoded Message:", decoded_message)
