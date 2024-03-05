@@ -157,6 +157,7 @@ def end_fox(team_id):
         "teamId": team_id,
     }
     response = requests.post(api_base_url + f'/end-game', json=payload)
+    print(response.text)
 
 
 def submit_fox_attempt(team_id):
@@ -181,7 +182,7 @@ def submit_fox_attempt(team_id):
     message, image_carrier = init_fox(team_id)
     image_carrier = np.array(image_carrier)
     message_array, message_entities = generate_message_array(message, image_carrier)
-    riddles_list = ["problem_solving_easy", "problem_solving_medium", "problem_solving_hard"]
+    riddles_list = ["problem_solving_easy", "problem_solving_medium", "problem_solving_hard", 'sec_medium_stegano', 'ml_easy', 'sec_hard', 'ml_medium']
     total = 0
     for riddle_id in riddles_list:
         test_case = get_riddle(team_id, riddle_id)
