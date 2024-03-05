@@ -4,8 +4,8 @@ from LSBSteg import encode
 from riddle_solvers import riddle_solvers
 import random
 
-# team_id = "Jt4hTHH"
-team_id = "a3333333"
+team_id = "Jt4hTHH"
+# team_id = "a3333333"
 # 3.70.97.142
 api_base_url = "http://3.70.97.142:5000/fox"
 

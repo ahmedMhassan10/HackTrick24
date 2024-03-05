@@ -1,32 +1,12 @@
 # Add the necessary imports here
 
+import numpy as np
 import pandas as pd
 import torch
-from utils import *
-import numpy as np
-from SteganoGAN.utils import *
-from torchvision import transforms
-from PIL import Image
-import pandas as pd
-import torch
-import numpy as np
-from torchvision import transforms
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.metrics import mean_squared_error
-import pandas as pd
-# from tensorflow.keras.models import Sequential
-# from tensorflow.keras.layers import LSTM, Dense
-from math import sqrt
+from sklearn.cluster import SpectralClustering
 from statsmodels.tsa.arima.model import ARIMA
-from sklearn.cluster import DBSCAN
-import numpy as np
-from sklearn.model_selection import train_test_split
-# from tensorflow.keras import layers, models
-
-# from sklearn.preprocessing import MinMaxScaler
-# from tensorflow.keras.models import Sequential
-# from tensorflow.keras.layers import LSTM, Dense
-# from sklearn.metrics import mean_squared_error
+from torchvision import transforms
+from SteganoGAN.utils import *
 
 init_p = [
     58, 50, 42, 34, 26, 18, 10, 2,
@@ -510,12 +490,17 @@ def solve_ml_medium(input: list) -> int:
     data = pd.read_csv(filename)
     X = data[['x_', 'y_']]  # Features
     y = data['class']  # Labels# Labels
+
     X._append(input)
+    spectral_model = SpectralClustering(n_clusters=2,
+                                        affinity='nearest_neighbors')  # Adjust the number of clusters as needed
+    labels = spectral_model.fit_predict(X)
 
-    dbscan = DBSCAN(eps=.5, min_samples=5)
-    labels = dbscan.fit_predict(X)
+    # print("Predicted label:", predicted_label)
+    predicted_label = labels[len(labels) - 1]
 
-    return int(labels[len(labels) - 1])
+    print(predicted_label)
+    return int(predicted_label) - 1
 
 
 def solve_sec_medium(input) -> str:
@@ -775,3 +760,47 @@ riddle_solvers = {
 # # Evaluate the model
 # test_loss, test_accuracy = model.evaluate(X_test, y_test)
 # print("Test Accuracy:", test_accuracy)
+#
+# import numpy as np
+# import pandas as pd
+# from sklearn.model_selection import train_test_split
+# from tensorflow.keras import layers, models
+#
+# # Load the data
+# filename = "/content/MlMediumTrainingData.csv"
+# data = pd.read_csv(filename)
+#
+# # Extract features and labels
+# X = data[['x_', 'y_']].values
+# labels = data['class'].values
+#
+# # Map -1 labels to +1
+# labels[labels == -1] = 1
+#
+# # Split dataset into training and testing sets
+# X_train, X_test, y_train, y_test = train_test_split(X, labels, test_size=0.2, random_state=42)
+#
+# # Define a fully connected model
+# model = models.Sequential([
+#     layers.Dense(128, activation='relu', input_shape=(2,)),
+#     layers.Dense(64, activation='relu'),
+#     layers.Dense(32, activation='relu'),
+#     layers.Dense(1, activation='sigmoid')
+# ])
+#
+# # Compile the model
+# model.compile(optimizer='adam',
+#               loss='binary_crossentropy',
+#               metrics=['accuracy'])
+#
+# # Train the model
+# history = model.fit(X_train, y_train, epochs=10, validation_data=(X_test, y_test))
+#
+# # Evaluate the model
+# test_loss, test_accuracy = model.evaluate(X_test, y_test)
+# print("Test Accuracy:", test_accuracy)
+
+# Example usage
+# new_point = [0, 0]  # New point to classify
+# print(solve_ml_medium(new_point))
+# predicted_label = predict_label(new_point)
